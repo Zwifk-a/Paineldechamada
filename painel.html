@@ -10,6 +10,7 @@
   <h1 id="nomeSetor">Aguardando chamada...</h1>
 
   <script>
+    // Configuração do Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBKel5_eKeVKEhqACkN_0VPdjCeZwHvcM0",
       authDomain: "painel-chamada-setor.firebaseapp.com",
@@ -20,8 +21,9 @@
       appId: "1:306148503726:web:9f51b07d453430ebbdbd3f"
     };
 
+    // Inicializa Firebase
     firebase.initializeApp(firebaseConfig);
-    var db = firebase.database();
+    const db = firebase.database();
 
     let setorAnterior = null;
 
@@ -31,10 +33,10 @@
 
       if (nomeSetor && dados && dados.setor && dados.setor !== setorAnterior) {
         const setor = dados.setor;
-        nomeSetor.innerText = setor;
-
+        nomeSetor.innerText = `Setor chamado: ${setor}`;
         setorAnterior = setor;
 
+        // Fala a mensagem
         const mensagem = `Setor ${setor}, favor comparecer à recepção.`;
         const fala = new SpeechSynthesisUtterance(mensagem);
         fala.lang = 'pt-BR';
