@@ -1,45 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Chamada por Setor - Recepção</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; padding: 50px; }
-        button { padding: 15px 30px; margin: 10px; font-size: 18px; border-radius: 10px; background-color: #007bff; color: white; cursor: pointer; }
-        button:hover { background-color: #0056b3; }
-    </style>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script>
-        // Configuração do Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBKel5_eKeVKEhqACkN_0VPdjCeZwHvcM0",
-            authDomain: "painel-chamada-setor.firebaseapp.com",
-            databaseURL: "https://painel-chamada-setor-dca40-default-rtdb.firebaseio.com",
-            projectId: "painel-chamada-setor-dca40",
-            storageBucket: "painel-chamada-setor.appspot.com",
-            messagingSenderId: "306148503726",
-            appId: "1:306148503726:web:9f51b07d453430ebbdbd3f"
-        };
+  <meta charset="UTF-8">
+  <title>Chamada por Setor - Recepção</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+      padding: 30px;
+    }
 
-        // Inicializar Firebase
-        let database;
-        const app = firebase.initializeApp(firebaseConfig);
-        database = firebase.database(app);
+    img.logo {
+      width: 200px;
+      margin-bottom: 30px;
+    }
 
-        // Função para chamar o setor
-        function chamarSetor(setor) {
-            const mensagem = `Setor ${setor}, favor comparecer à recepção.`;
-            const fala = new SpeechSynthesisUtterance(mensagem);
-            fala.lang = 'pt-BR';
-            speechSynthesis.speak(fala);
-            const data = { setor: setor, mensagem: mensagem, timestamp: new Date().toISOString() };
-            database.ref("chamada").set(data);
-        }
-    </script>
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .botoes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    button {
+      padding: 25px 40px;
+      font-size: 22px;
+      border-radius: 12px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKel5_eKeVKEhqACkN_0VPdjCeZwHvcM0",
+      authDomain: "painel-chamada-setor.firebaseapp.com",
+      databaseURL: "https://painel-chamada-setor-dca40-default-rtdb.firebaseio.com",
+      projectId: "painel-chamada-setor-dca40",
+      storageBucket: "painel-chamada-setor.appspot.com",
+      messagingSenderId: "306148503726",
+      appId: "1:306148503726:web:9f51b07d453430ebbdbd3f"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database(app);
+
+    function chamarSetor(setor) {
+      const mensagem = `Setor ${setor}, favor comparecer à recepção.`;
+      const fala = new SpeechSynthesisUtterance(mensagem);
+      fala.lang = 'pt-BR';
+      speechSynthesis.speak(fala);
+      const data = { setor: setor, mensagem: mensagem, timestamp: new Date().toISOString() };
+      database.ref("chamada").set(data);
+    }
+  </script>
 </head>
+
 <body>
-    <h1>Chamada por Setor</h1>
+  <!-- Logo -->
+  <img src="logo.png" alt="Logo da empresa" class="logo">
+
+  <h1>Chamada por Setor</h1>
+
+  <!-- Botões -->
+  <div class="botoes">
     <button onclick="chamarSetor('Administrativo')">Administrativo</button>
     <button onclick="chamarSetor('Comercial')">Comercial</button>
     <button onclick="chamarSetor('Financeiro')">Financeiro</button>
@@ -51,5 +90,6 @@
     <button onclick="chamarSetor('Executivo')">Executivo</button>
     <button onclick="chamarSetor('Comunicação')">Comunicação</button>
     <button onclick="chamarSetor('Outro')">Outro</button>
+  </div>
 </body>
 </html>
