@@ -10,7 +10,6 @@
   <h1 id="nomeSetor">Aguardando chamada...</h1>
 
   <script>
-    // Configuração do Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBKel5_eKeVKEhqACkN_0VPdjCeZwHvcM0",
       authDomain: "painel-chamada-setor.firebaseapp.com",
@@ -21,28 +20,27 @@
       appId: "1:306148503726:web:9f51b07d453430ebbdbd3f"
     };
 
-    // Inicializar o Firebase
     firebase.initializeApp(firebaseConfig);
-
-    // Conectar ao banco de dados
     var db = firebase.database();
 
-    // Escutando a mudança no setor chamado
-    firebase.database().ref("chamada/setor").on("value", function(snapshot) {
+    let setorAnterior = null; // guardamos o último setor anunciado
+
+    db.ref("chamada/setor").on("value", function(snapshot) {
       const nomeSetor = document.getElementById("nomeSetor");
+      const dados = snapshot.val();
 
-      // Verificando se a referência do painel e os dados estão disponíveis
-      if (nomeSetor && snapshot.val()) {
-        const setor = snapshot.val().setor || "Sem setor definido";
-
-        // Atualiza o texto do painel com o nome do setor
+      if (nomeSetor && dados && dados.setor && dados.setor !== setorAnterior) {
+        const setor = dados.setor;
         nomeSetor.innerText = setor;
 
-        // Tocar o som de chamada para o setor
+        // Atualiza o último setor
+        setorAnterior = setor;
+
+        // Fala o nome do setor
         const mensagem = `Setor ${setor}, favor comparecer à recepção.`;
         const fala = new SpeechSynthesisUtterance(mensagem);
         fala.lang = 'pt-BR';
-        speechSynthesis.speak(fala);  // Emite o som
+        speechSynthesis.speak(fala);
       }
     });
   </script>
