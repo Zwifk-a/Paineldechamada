@@ -11,32 +11,34 @@
       padding: 30px;
     }
 
-    img.logo {
-      width: 200px;
+    .logo {
+      width: 220px;
       margin-bottom: 30px;
     }
 
     h1 {
       font-size: 36px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
     .botoes {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
     button {
-      padding: 25px 40px;
-      font-size: 22px;
+      padding: 30px 20px;
+      font-size: 20px;
       border-radius: 12px;
       background-color: #007bff;
       color: white;
       cursor: pointer;
       border: none;
       transition: background-color 0.3s;
+      height: 100px;
     }
 
     button:hover {
@@ -72,12 +74,11 @@
 </head>
 
 <body>
-  <!-- Logo -->
+  <!-- Logo (verifique se o nome da imagem é logo.png e está na mesma pasta) -->
   <img src="logo.png" alt="Logo da empresa" class="logo">
 
   <h1>Chamada por Setor</h1>
 
-  <!-- Botões -->
   <div class="botoes">
     <button onclick="chamarSetor('Administrativo')">Administrativo</button>
     <button onclick="chamarSetor('Comercial')">Comercial</button>
