@@ -2,15 +2,34 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Painel de Notificações</title>
+  <title>Painel de Chamada</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #mensagem {
+      font-size: 60px;
+      font-weight: bold;
+      color: #333;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 50px;
+      border-radius: 20px;
+      max-width: 90%;
+      word-wrap: break-word;
+    }
+  </style>
+
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-</head>
-<body>
-  <h1 id="nomeSetor">Aguardando chamada...</h1>
-
   <script>
-    // Configuração do Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBKel5_eKeVKEhqACkN_0VPdjCeZwHvcM0",
       authDomain: "painel-chamada-setor.firebaseapp.com",
@@ -21,28 +40,20 @@
       appId: "1:306148503726:web:9f51b07d453430ebbdbd3f"
     };
 
-    // Inicializa Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database(app);
 
-    let setorAnterior = null;
-
-    db.ref("chamada").on("value", function(snapshot) {
-      const nomeSetor = document.getElementById("nomeSetor");
-      const dados = snapshot.val();
-
-      if (nomeSetor && dados && dados.setor && dados.setor !== setorAnterior) {
-        const setor = dados.setor;
-        nomeSetor.innerText = `Setor chamado: ${setor}`;
-        setorAnterior = setor;
-
-        // Fala a mensagem
-        const mensagem = `Setor ${setor}, favor comparecer à recepção.`;
-        const fala = new SpeechSynthesisUtterance(mensagem);
-        fala.lang = 'pt-BR';
-        speechSynthesis.speak(fala);
+    // Função que escuta o Firebase em tempo real
+    database.ref("chamada").on("value", (snapshot) => {
+      const data = snapshot.val();
+      if (data && data.mensagem) {
+        document.getElementById('mensagem').textContent = data.mensagem;
       }
     });
   </script>
+</head>
+
+<body>
+  <div id="mensagem">Aguardando chamada...</div>
 </body>
 </html>
