@@ -43,11 +43,16 @@
     const app = firebase.initializeApp(firebaseConfig);
     const database = firebase.database(app);
 
-    // Função que escuta o Firebase em tempo real
     database.ref("chamada").on("value", (snapshot) => {
       const data = snapshot.val();
       if (data && data.mensagem) {
-        document.getElementById('mensagem').textContent = data.mensagem;
+        const mensagem = data.mensagem;
+        document.getElementById('mensagem').textContent = mensagem;
+
+        // Faz a leitura em voz alta da mensagem
+        const fala = new SpeechSynthesisUtterance(mensagem);
+        fala.lang = 'pt-BR';
+        speechSynthesis.speak(fala);
       }
     });
   </script>
@@ -57,3 +62,4 @@
   <div id="mensagem">Aguardando chamada...</div>
 </body>
 </html>
+
