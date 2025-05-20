@@ -1,65 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Painel de Chamada</title>
+  <meta charset="UTF-8" />
+  <title>Painel de Chamadas</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      background-color: #f4f4f4;
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding: 30px;
     }
-
-    #mensagem {
-      font-size: 60px;
-      font-weight: bold;
+    #chamada {
+      font-size: 48px;
+      margin-top: 50px;
       color: #333;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 50px;
-      border-radius: 20px;
-      max-width: 90%;
-      word-wrap: break-word;
     }
   </style>
-
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBKel5_eKeVKEhqACkN_0VPdjCeZwHvcM0",
-      authDomain: "painel-chamada-setor.firebaseapp.com",
-      databaseURL: "https://painel-chamada-setor-dca40-default-rtdb.firebaseio.com",
-      projectId: "painel-chamada-setor-dca40",
-      storageBucket: "painel-chamada-setor.appspot.com",
-      messagingSenderId: "306148503726",
-      appId: "1:306148503726:web:9f51b07d453430ebbdbd3f"
-    };
-
-    const app = firebase.initializeApp(firebaseConfig);
-    const database = firebase.database(app);
-
-    database.ref("chamada").on("value", (snapshot) => {
-      const data = snapshot.val();
-      if (data && data.mensagem) {
-        const mensagem = data.mensagem;
-        document.getElementById('mensagem').textContent = mensagem;
-
-        // Faz a leitura em voz alta da mensagem
-        const fala = new SpeechSynthesisUtterance(mensagem);
-        fala.lang = 'pt-BR';
-        speechSynthesis.speak(fala);
-      }
-    });
-  </script>
 </head>
-
 <body>
-  <div id="mensagem">Aguardando chamada...</div>
+
+  <h1>Painel de Chamadas</h1>
+
+  <div id="chamada">Aguardando chamada...</div>
+
+  <!-- Áudio da chamada -->
+  <audio id="somChamada" src="93646__benboncan__airport-bingbong.wav" preload="auto"></audio>
+
+  <script>
+    // Simulação de recebimento de uma nova chamada a cada 15 segundos
+    // Aqui você vai colocar a integração real com Firebase ou seu backend
+
+    let chamadas = ["Setor 1", "Setor 2", "Setor 3", "Setor 4"];
+    let index = 0;
+    const chamadaDiv = document.getElementById('chamada');
+    const somChamada = document.getElementById('somChamada');
+
+    function novaChamada() {
+      const chamadaAtual = chamadas[index];
+      chamadaDiv.textContent = "Chamada para: " + chamadaAtual;
+
+      // Tocar o som da chamada
+      somChamada.play().catch((e) => {
+        console.log("Erro ao tocar o som: ", e);
+      });
+
+      index++;
+      if(index >= chamadas.length) index = 0;
+    }
+
+    // Exemplo: disparar nova chamada a cada 15 segundos
+    setInterval(novaChamada, 15000);
+
+    // Para a primeira chamada já aparecer ao carregar a página
+    novaChamada();
+  </script>
 </body>
 </html>
-
