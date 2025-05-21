@@ -3,23 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Painel de Chamadas</title>
+  <title>Recepção - Chamada de Setores</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      background-color: #ffffff;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 20px;
     }
 
+    .logo {
+      width: 250px;
+      margin-bottom: 30px;
+    }
+
     .linha {
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 15px;
       margin-bottom: 20px;
-      flex-wrap: wrap;
     }
 
     .botao-setor {
@@ -31,39 +36,42 @@
       padding: 20px 30px;
       font-size: 16px;
       border-radius: 8px;
-      cursor: default;
+      cursor: pointer;
       min-width: 160px;
-      text-align: center;
     }
   </style>
 </head>
 <body>
-  <h1>Painel de Chamadas</h1>
+  <!-- Substitua o caminho da imagem abaixo pelo caminho da sua logo -->
+  <img src="logo.png" alt="Logo da empresa" class="logo" />
 
-  <!-- Primeira linha -->
+  <!-- Primeira linha (ordem alfabética) -->
   <div class="linha">
-    <div class="botao-setor" id="cartoes">Cartões</div>
-    <div class="botao-setor" id="consulta-cpf">Consulta CPF</div>
-    <div class="botao-setor" id="certificado-origem">Certificado de Origem</div>
+    <button class="botao-setor" onclick="chamarSetor('Cartões')">Cartões</button>
+    <button class="botao-setor" onclick="chamarSetor('Certificado de Origem')">Certificado de Origem</button>
+    <button class="botao-setor" onclick="chamarSetor('Consulta CPF')">Consulta CPF</button>
   </div>
 
-  <!-- Segunda linha -->
+  <!-- Segunda linha (ordem alfabética) -->
   <div class="linha">
-    <div class="botao-setor" id="administrativo">Administrativo</div>
-    <div class="botao-setor" id="financeiro">Financeiro</div>
-    <div class="botao-setor" id="nucleos">Núcleos</div>
+    <button class="botao-setor" onclick="chamarSetor('Administrativo')">Administrativo</button>
+    <button class="botao-setor" onclick="chamarSetor('Financeiro')">Financeiro</button>
+    <button class="botao-setor" onclick="chamarSetor('Núcleos')">Núcleos</button>
   </div>
 
-  <!-- Terceira linha -->
+  <!-- Terceira linha (ordem alfabética) -->
   <div class="linha">
-    <div class="botao-setor" id="entregas">Entregas</div>
-    <div class="botao-setor" id="executivo">Executivo</div>
-    <div class="botao-setor" id="locacao-sala">Locação de Sala</div>
-    <div class="botao-setor" id="treinamentos">Treinamentos</div>
+    <button class="botao-setor" onclick="chamarSetor('Entregas')">Entregas</button>
+    <button class="botao-setor" onclick="chamarSetor('Executivo')">Executivo</button>
+    <button class="botao-setor" onclick="chamarSetor('Locação de Sala')">Locação de Sala</button>
+    <button class="botao-setor" onclick="chamarSetor('Treinamentos')">Treinamentos</button>
   </div>
 
   <script>
-    // Aqui você pode colocar o código Firebase que atualiza os botões quando a recepção chama um setor
+    function chamarSetor(setor) {
+      // Aqui vai o código do Firebase para enviar o setor chamado
+      console.log("Setor chamado:", setor);
+    }
   </script>
 </body>
 </html>
