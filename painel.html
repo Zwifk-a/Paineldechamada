@@ -17,11 +17,11 @@
     }
 
     #mensagem {
-      font-size: 60px;
+      font-size: 100px;
       font-weight: bold;
       color: #333;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 50px;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 60px 40px;
       border-radius: 20px;
       max-width: 90%;
       word-wrap: break-word;
@@ -54,15 +54,12 @@
 </head>
 
 <body>
-  <!-- Botão para ativar o som -->
   <div id="ativarSom">
     <button onclick="ativarAudio()">Ativar Som</button>
   </div>
 
-  <!-- Mensagem do setor -->
   <div id="mensagem">Aguardando chamada...</div>
 
-  <!-- Áudio de chamada -->
   <audio id="somChamada" src="93646__benboncan__airport-bingbong.wav" preload="auto"></audio>
 
   <script>
@@ -87,30 +84,24 @@
         som.pause();
         som.currentTime = 0;
         document.getElementById("ativarSom").style.display = "none";
-        console.log("Som ativado.");
       }).catch((e) => {
-        console.warn("Erro ao ativar som:", e);
         alert("Clique novamente para ativar o som.");
       });
     }
 
     database.ref("chamada").on("value", (snapshot) => {
       const data = snapshot.val();
-      if (data && data.mensagem) {
-        const mensagem = data.mensagem;
+      if (data && data.setor) {
+        const setor = data.setor;
 
-        if (mensagem !== ultimaMensagem) {
-          ultimaMensagem = mensagem;
-          document.getElementById('mensagem').textContent = mensagem;
-
+        if (setor !== ultimaMensagem) {
+          ultimaMensagem = setor;
+          document.getElementById('mensagem').textContent = `Setor ${setor}`;
           som.currentTime = 0;
-          som.play().catch((e) => {
-            console.warn("Erro ao tocar som:", e);
-          });
+          som.play().catch(() => {});
         }
       }
     });
   </script>
 </body>
 </html>
-
