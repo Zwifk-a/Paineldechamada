@@ -64,17 +64,17 @@
 
     function chamarSetor(setor) {
       const mensagem = `Setor ${setor}, favor comparecer à recepção.`;
-      const fala = new SpeechSynthesisUtterance(mensagem);
-      fala.lang = 'pt-BR';
-      speechSynthesis.speak(fala);
-      const data = { setor: setor, mensagem: mensagem, timestamp: new Date().toISOString() };
+      const data = {
+        setor: setor,
+        mensagem: mensagem,
+        timestamp: new Date().toISOString()
+      };
       database.ref("chamada").set(data);
     }
   </script>
 </head>
 
 <body>
-  <!-- Logo (verifique se o nome da imagem é logo.png e está na mesma pasta) -->
   <img src="logo.png" alt="Logo da empresa" class="logo">
 
   <h1>Chamada por Setor</h1>
@@ -94,3 +94,4 @@
   </div>
 </body>
 </html>
+
