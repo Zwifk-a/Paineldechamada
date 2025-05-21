@@ -2,38 +2,40 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Chamada por Setor - Recepção</title>
+  <title>Recepção</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
       text-align: center;
-      background-color: #f4f4f4;
-      padding: 30px;
+      margin: 0;
+      padding: 20px;
     }
 
-    .logo {
-      width: 220px;
-      margin-bottom: 30px;
+    img {
+      margin-top: 20px;
+      max-width: 300px;
     }
 
-    .botoes {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
-      max-width: 1000px;
-      margin: 0 auto;
+      margin-top: 40px;
     }
 
     button {
-      padding: 40px 20px;
-      font-size: 24px;
-      border-radius: 12px;
       background-color: #007bff;
       color: white;
-      cursor: pointer;
       border: none;
+      padding: 30px 50px; /* AUMENTA a altura e um pouco a largura */
+      font-size: 20px;
+      border-radius: 12px;
+      cursor: pointer;
       transition: background-color 0.3s;
-      height: 130px;
+      min-width: 220px;
+      height: 100px; /* Altura definida */
     }
 
     button:hover {
@@ -41,8 +43,27 @@
     }
   </style>
 
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+  <!-- Logo -->
+  <img src="https://acisbs.org.br/wp-content/uploads/2021/10/LOGO_ACISBS_HORIZONTAL-1.png" alt="Logo ACISBS">
+
+  <!-- Botões dos setores -->
+  <div class="container">
+    <button onclick="chamarSetor('Administrativo')">Administrativo</button>
+    <button onclick="chamarSetor('Comercial')">Comercial</button>
+    <button onclick="chamarSetor('Financeiro')">Financeiro</button>
+    <button onclick="chamarSetor('Núcleos')">Núcleos</button>
+    <button onclick="chamarSetor('Cartões')">Cartões</button>
+    <button onclick="chamarSetor('Certificado de Origem')">Certificado de Origem</button>
+    <button onclick="chamarSetor('Consulta CPF')">Consulta CPF</button>
+    <button onclick="chamarSetor('Locação de Sala')">Locação de Sala</button>
+    <button onclick="chamarSetor('Executivo')">Executivo</button>
+  </div>
+
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBKel5_eKeVKEhqACkN_0VPdjCeZwHvcM0",
@@ -58,34 +79,11 @@
     const database = firebase.database(app);
 
     function chamarSetor(setor) {
-      const data = {
+      database.ref("chamada").set({
         setor: setor,
-        mensagem: `Setor ${setor}, favor comparecer à recepção.`,
         timestamp: new Date().toISOString()
-      };
-      database.ref("chamada").set(data);
+      });
     }
   </script>
-</head>
-
-<body>
-  <!-- Logo (opcional) -->
-  <img src="logo.png" alt="Logo da empresa" class="logo">
-
-  <div class="botoes">
-    <button onclick="chamarSetor('Administrativo')">Administrativo</button>
-    <button onclick="chamarSetor('Comercial')">Comercial</button>
-    <button onclick="chamarSetor('Financeiro')">Financeiro</button>
-    <button onclick="chamarSetor('Núcleos')">Núcleos</button>
-    <button onclick="chamarSetor('Cartões')">Cartões</button>
-    <button onclick="chamarSetor('Certificado de Origem')">Certificado de Origem</button>
-    <button onclick="chamarSetor('Consulta CPF')">Consulta CPF</button>
-    <button onclick="chamarSetor('Locação de Sala')">Locação de Sala</button>
-    <button onclick="chamarSetor('Executivo')">Executivo</button>
-    <button onclick="chamarSetor('Comunicação')">Comunicação</button>
-    <button onclick="chamarSetor('Outro')">Outro</button>
-  </div>
 </body>
 </html>
-
-
