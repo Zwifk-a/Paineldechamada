@@ -13,6 +13,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
     }
 
     #mensagem {
@@ -25,13 +26,40 @@
       max-width: 90%;
       word-wrap: break-word;
     }
+
+    #ativarSom {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    #ativarSom button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #ativarSom button:hover {
+      background-color: #218838;
+    }
   </style>
 
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
 
 <body>
+  <!-- Botão para ativar o som -->
+  <div id="ativarSom">
+    <button onclick="ativarAudio()">Ativar Som</button>
+  </div>
+
+  <!-- Mensagem do setor -->
   <div id="mensagem">Aguardando chamada...</div>
 
   <!-- Áudio de chamada -->
@@ -52,22 +80,30 @@
     const database = firebase.database(app);
 
     let ultimaMensagem = "";
+    const som = document.getElementById("somChamada");
+
+    function ativarAudio() {
+      som.play().then(() => {
+        som.pause();
+        som.currentTime = 0;
+        document.getElementById("ativarSom").style.display = "none";
+        console.log("Som ativado.");
+      }).catch((e) => {
+        console.warn("Erro ao ativar som:", e);
+        alert("Clique novamente para ativar o som.");
+      });
+    }
 
     database.ref("chamada").on("value", (snapshot) => {
       const data = snapshot.val();
       if (data && data.mensagem) {
         const mensagem = data.mensagem;
 
-        // Evita repetir a mesma mensagem
         if (mensagem !== ultimaMensagem) {
           ultimaMensagem = mensagem;
-
-          // Mostra a nova mensagem
           document.getElementById('mensagem').textContent = mensagem;
 
-          // Toca o som
-          const som = document.getElementById("somChamada");
-          som.currentTime = 0; // Reinicia o som do início
+          som.currentTime = 0;
           som.play().catch((e) => {
             console.warn("Erro ao tocar som:", e);
           });
@@ -77,3 +113,4 @@
   </script>
 </body>
 </html>
+
