@@ -19,12 +19,17 @@
       margin-bottom: 30px;
     }
 
-    .linha {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 1000px;
       margin-bottom: 20px;
+    }
+
+    .linha {
+      margin-bottom: 30px;
     }
 
     .botao-setor {
@@ -33,32 +38,46 @@
       font-weight: bold;
       text-transform: uppercase;
       border: none;
-      padding: 30px 50px;
+      padding: 30px 20px;
       font-size: 18px;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
+      text-align: center;
+      height: 100px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.3s, transform 0.2s;
       min-width: 200px;
+    }
+
+    .botao-setor:hover {
+      background-color: darkorange;
+      transform: scale(1.03);
     }
   </style>
 </head>
 <body>
   <img src="logo.png" alt="Logo da empresa" class="logo" />
 
-  <div class="linha">
-    <button class="botao-setor" onclick="chamarSetor('Cartões')">Cartões</button>
-    <button class="botao-setor" onclick="chamarSetor('Certificado de Origem')">Certificado de Origem</button>
-    <button class="botao-setor" onclick="chamarSetor('Consulta CPF')">Consulta CPF</button>
+  <!-- Primeira linha -->
+  <div class="grid-container linha">
+    <div class="botao-setor" onclick="chamarSetor('Cartões')">Cartões</div>
+    <div class="botao-setor" onclick="chamarSetor('Consulta CPF')">Consulta CPF</div>
+    <div class="botao-setor" onclick="chamarSetor('Certificado de Origem')">Certificado de Origem</div>
   </div>
-  <div class="linha">
-    <button class="botao-setor" onclick="chamarSetor('Administrativo')">Administrativo</button>
-    <button class="botao-setor" onclick="chamarSetor('Financeiro')">Financeiro</button>
-    <button class="botao-setor" onclick="chamarSetor('Núcleos')">Núcleos</button>
+
+  <!-- Segunda linha -->
+  <div class="grid-container linha">
+    <div class="botao-setor" onclick="chamarSetor('Administrativo')">Administrativo</div>
+    <div class="botao-setor" onclick="chamarSetor('Financeiro')">Financeiro</div>
+    <div class="botao-setor" onclick="chamarSetor('Núcleos')">Núcleos</div>
   </div>
-  <div class="linha">
-    <button class="botao-setor" onclick="chamarSetor('Entregas')">Entregas</button>
-    <button class="botao-setor" onclick="chamarSetor('Executivo')">Executivo</button>
-    <button class="botao-setor" onclick="chamarSetor('Locação de Sala')">Locação de Sala</button>
-    <button class="botao-setor" onclick="chamarSetor('Treinamentos')">Treinamentos</button>
+
+  <!-- Terceira linha -->
+  <div class="grid-container linha">
+    <div class="botao-setor" onclick="chamarSetor('Entregas')">Entregas</div>
+    <div class="botao-setor" onclick="chamarSetor('Executivo')">Executivo</div>
+    <div class="botao-setor" onclick="chamarSetor('Locação de Sala')">Locação de Sala</div>
+    <div class="botao-setor" onclick="chamarSetor('Treinamentos')">Treinamentos</div>
   </div>
 
   <!-- Firebase -->
