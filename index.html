@@ -33,33 +33,27 @@
       font-weight: bold;
       text-transform: uppercase;
       border: none;
-      padding: 20px 30px;
-      font-size: 16px;
-      border-radius: 8px;
+      padding: 30px 50px;
+      font-size: 18px;
+      border-radius: 10px;
       cursor: pointer;
-      min-width: 160px;
+      min-width: 200px;
     }
   </style>
 </head>
 <body>
-  <!-- Substitua o caminho da imagem abaixo pelo caminho da sua logo -->
   <img src="logo.png" alt="Logo da empresa" class="logo" />
 
-  <!-- Primeira linha (ordem alfabética) -->
   <div class="linha">
     <button class="botao-setor" onclick="chamarSetor('Cartões')">Cartões</button>
     <button class="botao-setor" onclick="chamarSetor('Certificado de Origem')">Certificado de Origem</button>
     <button class="botao-setor" onclick="chamarSetor('Consulta CPF')">Consulta CPF</button>
   </div>
-
-  <!-- Segunda linha (ordem alfabética) -->
   <div class="linha">
     <button class="botao-setor" onclick="chamarSetor('Administrativo')">Administrativo</button>
     <button class="botao-setor" onclick="chamarSetor('Financeiro')">Financeiro</button>
     <button class="botao-setor" onclick="chamarSetor('Núcleos')">Núcleos</button>
   </div>
-
-  <!-- Terceira linha (ordem alfabética) -->
   <div class="linha">
     <button class="botao-setor" onclick="chamarSetor('Entregas')">Entregas</button>
     <button class="botao-setor" onclick="chamarSetor('Executivo')">Executivo</button>
@@ -67,10 +61,28 @@
     <button class="botao-setor" onclick="chamarSetor('Treinamentos')">Treinamentos</button>
   </div>
 
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <script>
+    const firebaseConfig = {
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_DOMINIO.firebaseapp.com",
+      databaseURL: "https://SEU_DOMINIO.firebaseio.com",
+      projectId: "SEU_PROJETO_ID",
+      storageBucket: "SEU_BUCKET.appspot.com",
+      messagingSenderId: "SEU_SENDER_ID",
+      appId: "SEU_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
     function chamarSetor(setor) {
-      // Aqui vai o código do Firebase para enviar o setor chamado
-      console.log("Setor chamado:", setor);
+      database.ref("chamada").set({
+        setor: setor,
+        timestamp: Date.now()
+      });
     }
   </script>
 </body>
