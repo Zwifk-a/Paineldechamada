@@ -48,7 +48,7 @@
     }
   </style>
 
-  <!-- Firebase v9 compatível -->
+  <!-- Firebase compat (v9) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 </head>
@@ -95,8 +95,14 @@
         if (data.timestamp !== ultimoTimestamp) {
           ultimoTimestamp = data.timestamp;
           document.getElementById('mensagem').textContent = `SETOR ${data.setor.toUpperCase()}`;
-          som.currentTime = 0;
-          som.play().catch(() => {});
+
+          try {
+            som.pause();
+            som.currentTime = 0;
+            som.play();
+          } catch (e) {
+            console.warn("Erro ao tocar o som:", e);
+          }
         }
       }
     });
