@@ -76,7 +76,7 @@
     const app = firebase.initializeApp(firebaseConfig);
     const database = firebase.database(app);
 
-    let ultimaMensagem = "";
+    let ultimoTimestamp = 0;
     const som = document.getElementById("somChamada");
 
     function ativarAudio() {
@@ -91,12 +91,10 @@
 
     database.ref("chamada").on("value", (snapshot) => {
       const data = snapshot.val();
-      if (data && data.setor) {
-        const setor = data.setor;
-
-        if (setor !== ultimaMensagem) {
-          ultimaMensagem = setor;
-          document.getElementById('mensagem').textContent = `SETOR ${setor.toUpperCase()}`;
+      if (data && data.setor && data.timestamp) {
+        if (data.timestamp !== ultimoTimestamp) {
+          ultimoTimestamp = data.timestamp;
+          document.getElementById('mensagem').textContent = `SETOR ${data.setor.toUpperCase()}`;
           som.currentTime = 0;
           som.play().catch(() => {});
         }
@@ -105,3 +103,4 @@
   </script>
 </body>
 </html>
+
