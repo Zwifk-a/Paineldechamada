@@ -104,6 +104,7 @@
     const database = firebase.database();
 
     function chamarSetor(setor) {
+      // Adiciona timestamp para forçar atualização mesmo se o setor for repetido
       database.ref("chamada").set({
         setor: setor,
         timestamp: Date.now()
