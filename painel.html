@@ -27,24 +27,24 @@
       word-wrap: break-word;
     }
 
-    #ativarSom {
+    #ativar {
       position: absolute;
       top: 20px;
       left: 20px;
     }
 
-    #ativarSom button {
+    #ativar button {
       padding: 10px 20px;
       font-size: 16px;
       border: none;
-      background-color: #28a745;
+      background-color: #007bff;
       color: white;
       border-radius: 8px;
       cursor: pointer;
     }
 
-    #ativarSom button:hover {
-      background-color: #218838;
+    #ativar button:hover {
+      background-color: #0056b3;
     }
   </style>
 
@@ -53,8 +53,8 @@
 </head>
 
 <body>
-  <div id="ativarSom">
-    <button onclick="ativarAudio()">Ativar Som</button>
+  <div id="ativar">
+    <button onclick="ativarPainel()">Ativar Som e Tela Cheia</button>
   </div>
 
   <div id="mensagem">Aguardando chamada...</div>
@@ -75,28 +75,41 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
+    let permissaoAtivada = false;
     let ultimoTimestamp = 0;
     const som = document.getElementById("somChamada");
 
-    function ativarAudio() {
+    function ativarPainel() {
       som.play().then(() => {
         som.pause();
         som.currentTime = 0;
-        document.getElementById("ativarSom").style.display = "none";
+        permissaoAtivada = true;
+        document.getElementById("ativar").style.display = "none";
+
+        // entra em tela cheia
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        }
       }).catch(() => {
         alert("Clique novamente para ativar o som.");
       });
     }
 
-    function entrarEmTelaCheia() {
+    function tentarEntrarEmTelaCheia() {
       const elem = document.documentElement;
-
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) { /* Safari */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE11 */
-        elem.msRequestFullscreen();
+      if (!document.fullscreenElement && permissaoAtivada) {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        }
       }
     }
 
@@ -115,10 +128,11 @@
             console.warn("Erro ao tocar o som:", e);
           }
 
-          entrarEmTelaCheia(); // ativa a tela cheia na nova chamada
+          tentarEntrarEmTelaCheia(); // tenta de novo se não estiver
         }
       }
     });
   </script>
 </body>
 </html>
+
